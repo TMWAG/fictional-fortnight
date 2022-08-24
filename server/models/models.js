@@ -74,33 +74,37 @@ const OrderedProduct = sequelize.define('orderedProduct', {
 });
 
 //User's connections /* где будет внешний ключ и его имя */
-User.hasMany(Feedback, { foreignKey: 'userID' });
+User.hasMany(Feedback, { foreignKey: 'user_id' });
 Feedback.belongsTo(User);
-User.hasMany(Order, { foreignKey: 'userID' });
+User.hasMany(Order, { foreignKey: 'user_id' });
 Order.belongsTo(User);
 
 //Role's connections
-Role.hasOne(User, { foreignKey: 'roleID' });
+Role.hasOne(User, { foreignKey: 'role_id' });
 User.belongsToMany(Role);
 
 //Product's connections
-Product.hasOne(Vendor, { foreignKey: 'vendorID' });
+Product.hasOne(Vendor, { foreignKey: 'vendor_id' });
 Vendor.belongsToMany(Product);
-Product.hasOne(Category, { foreignKey: 'categoryID' });
+Product.hasOne(Category, { foreignKey: 'category_id' });
 Category.belongsToMany(Product);
+Product.hasMany(Description, { foreignKey: 'desc_id'});
+Description.belongsToMany(Product, {through: 'prod_desc'});
+Product.hasMany(Characteristic, {foreignKey: 'prod_id'});
+Characteristic.belongsToMany(Product, {through: 'prod_char'});
+Product.hasMany(Feedback, {foreignKey: 'prod_id'});
+Feedback.belongsTo(Product);
 
-Vendor;
+//Parameter's connections 
+Parameter.hasOne(Characteristic, {foreignKey: 'par_id'});
+Characteristic.belongsTo(Parameter);
 
-Category;
+//Order's connections
+Order.hasOne(OrderStatus, {foreignKey: 'order_stat_id'});
+OrderStatus.belongsTo(Order);
 
-Description;
-
-Characteristic;
-
-Parameter;
-
-Order;
-
-OrderStatus;
-
-OrderedProduct;
+//Ordered product's connections
+OrderedProduct.hasOne(Order, {foreignKey: 'order_id'});
+Order.belongsTo(OrderedProduct);
+OrderedProduct.hasOne(Product, {foreignKey: 'prod_id'});
+Product.belongsToMany(OrderedProduct);
