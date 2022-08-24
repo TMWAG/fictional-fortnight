@@ -1,0 +1,10 @@
+{
+    "cSpell.words": [
+        "будет",
+        "внешний",
+        "ключ"
+    ],
+    "prettier.prettierPath": "server/node_modules/prettier",
+    "prettier.resolveGlobalModules": true,
+    "prettier.enable": true
+}
