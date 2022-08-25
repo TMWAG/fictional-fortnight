@@ -24,7 +24,7 @@ const Feedback = sequelize.define('feedback', {
 });
 
 const Product = sequelize.define('product', {
-  id: { type: DataTypes.NUMBER, primaryKey: true, autoIncrement: true },
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, allowNull: false, unique: true },
   price: { type: DataTypes.INTEGER, allowNull: false },
   amount: { type: DataTypes.INTEGER, allowNull: false },
@@ -37,7 +37,7 @@ const Vendor = sequelize.define('vendor', {
 });
 
 const Category = sequelize.define('category', {
-  id: { type: DataTypes.NUMBER, primaryKey: true, autoIncrement: true },
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   categoryName: { type: DataTypes.STRING, allowNull: false, unique: true },
 });
 
@@ -73,38 +73,57 @@ const OrderedProduct = sequelize.define('orderedProduct', {
   amount: { type: DataTypes.INTEGER, allowNull: false },
 });
 
-//User's connections /* где будет внешний ключ и его имя */
-User.hasMany(Feedback, { foreignKey: 'user_id' });
-Feedback.belongsTo(User);
-User.hasMany(Order, { foreignKey: 'user_id' });
+//User's connections
+User.hasMany(Order);
 Order.belongsTo(User);
+User.hasMany(Feedback);
+Feedback.belongsTo(User);
 
 //Role's connections
-Role.hasOne(User, { foreignKey: 'role_id' });
-User.belongsToMany(Role);
-
-//Product's connections
-Product.hasOne(Vendor, { foreignKey: 'vendor_id' });
-Vendor.belongsToMany(Product);
-Product.hasOne(Category, { foreignKey: 'category_id' });
-Category.belongsToMany(Product);
-Product.hasMany(Description, { foreignKey: 'desc_id'});
-Description.belongsToMany(Product, {through: 'prod_desc'});
-Product.hasMany(Characteristic, {foreignKey: 'prod_id'});
-Characteristic.belongsToMany(Product, {through: 'prod_char'});
-Product.hasMany(Feedback, {foreignKey: 'prod_id'});
-Feedback.belongsTo(Product);
-
-//Parameter's connections 
-Parameter.hasOne(Characteristic, {foreignKey: 'par_id'});
-Characteristic.belongsTo(Parameter);
+Role.hasMany(User);
+User.belongsTo(Role);
 
 //Order's connections
-Order.hasOne(OrderStatus, {foreignKey: 'order_stat_id'});
-OrderStatus.belongsTo(Order);
+Order.hasMany(OrderedProduct);
+OrderedProduct.belongsTo(Order);
 
-//Ordered product's connections
-OrderedProduct.hasOne(Order, {foreignKey: 'order_id'});
-Order.belongsTo(OrderedProduct);
-OrderedProduct.hasOne(Product, {foreignKey: 'prod_id'});
-Product.belongsToMany(OrderedProduct);
+//Order status connections
+OrderStatus.hasMany(Order);
+Order.belongsTo(OrderStatus);
+
+//Product's connections
+Product.hasMany(OrderedProduct);
+OrderedProduct.belongsTo(Product);
+Product.hasMany(Feedback);
+Feedback.belongsTo(Product);
+Product.hasMany(Description);
+Description.belongsTo(Product);
+Product.hasMany(Characteristic);
+Characteristic.belongsTo(Product);
+
+//Vendor's connections
+Vendor.hasMany(Product);
+Product.belongsTo(Vendor);
+
+//Category's connections
+Category.hasMany(Product);
+Product.belongsTo(Category);
+
+//Parameter's connections
+Parameter.hasMany(Characteristic);
+Characteristic.belongsTo(Parameter);
+
+module.exports = {
+  User,
+  Role,
+  Feedback,
+  Product,
+  Vendor,
+  Category,
+  Description,
+  Characteristic,
+  Parameter,
+  Order,
+  OrderStatus,
+  OrderedProduct,
+};
