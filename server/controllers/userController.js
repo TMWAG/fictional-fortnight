@@ -3,7 +3,9 @@ class UserController {
 
   async login(req, res) {}
 
-  async auth(req, res) {}
+  async auth(req, res) {
+    res.json('test');
+  }
 }
 
 module.exports = new UserController();
