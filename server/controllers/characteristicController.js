@@ -10,7 +10,7 @@ class CharacteristicController{
 
     async getAllCharsByProdId(req, res){
         const {productId} = req.params;
-        const characteristics = await Characteristic.findAll({where: productId});
+        const characteristics = await Characteristic.findAll({where: {productId}});
         return res.json(characteristics);
     }
 }
