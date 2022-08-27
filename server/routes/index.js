@@ -4,6 +4,7 @@ const productRouter = require('./productRouter');
 const categoryRouter = require('./categoryRouter');
 const vendorRouter = require('./vendorRouter');
 const userRouter = require('./userRouter');
+const characteristicController = require('../controllers/characteristicController');
 
 router.use('/user', userRouter);
 router.use('/product', productRouter);
