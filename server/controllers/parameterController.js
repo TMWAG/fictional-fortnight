@@ -19,3 +19,5 @@ class ParameterController{
         return res.json(parameter);
     }
 }
+
+module.exports = new ParameterController();

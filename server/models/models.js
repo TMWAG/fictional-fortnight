@@ -43,9 +43,13 @@ const Category = sequelize.define('category', {
 
 const Description = sequelize.define('description', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  text: { type: DataTypes.TEXT, allowNull: false },
-  picture: { type: DataTypes.STRING },
+  text: { type: DataTypes.TEXT, allowNull: false }
 });
+
+const ProductImage = sequelize.define('product_image',{
+  id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement:true},
+  imageName: {type: DataTypes.STRING}
+})
 
 const Characteristic = sequelize.define('characteristic', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -96,10 +100,12 @@ Product.hasMany(OrderedProduct);
 OrderedProduct.belongsTo(Product);
 Product.hasMany(Feedback);
 Feedback.belongsTo(Product);
-Product.hasMany(Description);
+Product.hasOne(Description);
 Description.belongsTo(Product);
 Product.hasMany(Characteristic);
 Characteristic.belongsTo(Product);
+Product.hasMany(ProductImage);
+ProductImage.belongsTo(Product);
 
 //Vendor's connections
 Vendor.hasMany(Product);
@@ -126,4 +132,5 @@ module.exports = {
   Order,
   OrderStatus,
   OrderedProduct,
+  ProductImage,
 };

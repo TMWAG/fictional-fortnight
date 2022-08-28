@@ -1,14 +1,31 @@
 const Router = require('express');
 const router = new Router();
-const productRouter = require('./productRouter');
 const categoryRouter = require('./categoryRouter');
+const characteristicRouter = require('./characteristicRouter');
+const descriptionRouter = require('./descriptionRouter');
+const feedbackRouter = require('./feedbackRouter');
+const orderedProductRouter = require('./orderedProductRouter');
+const orderRouter = require('./orderRouter');
+const orderStatusRouter = require('./orderStatusRouter');
+const parameterRouter = require('./parameterRouter');
+const productImageRouter = require('./productImageRouter');
+const productRouter = require('./productRouter');
+const roleRouter = require('./roleRouter');
 const vendorRouter = require('./vendorRouter');
 const userRouter = require('./userRouter');
-const characteristicController = require('../controllers/characteristicController');
 
-router.use('/user', userRouter);
-router.use('/product', productRouter);
 router.use('/category', categoryRouter);
+router.use('/characteristic', characteristicRouter);
+router.use('/description', descriptionRouter);
+router.use('/feedback', feedbackRouter);
+router.use('/orderedProduct', orderedProductRouter);
+router.use('/order', orderRouter);
+router.use('/orderStatus', orderStatusRouter);
+router.use('/parameter', parameterRouter);
+router.use('/productImage', productImageRouter);
+router.use('/product', productRouter);
+router.use('/role', roleRouter);
+router.use('/user', userRouter);
 router.use('/vendor', vendorRouter);
 
 module.exports = router;
