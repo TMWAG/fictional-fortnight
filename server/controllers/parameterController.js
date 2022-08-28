@@ -15,7 +15,7 @@ class ParameterController{
 
     async getById(req, res){
         const {id} = req.params;
-        const parameter = Parameter.findOne({where:{id}});
+        const parameter = await Parameter.findOne({where:{id}});
         return res.json(parameter);
     }
 }

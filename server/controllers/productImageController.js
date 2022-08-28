@@ -15,7 +15,7 @@ class ProductImageController{
 
     async getAllByProdId(req, res){
         const {productId} = req.params;
-        const images = ProductImage.findAll({where:{productId}});
+        const images = await ProductImage.findAll({where:{productId}});
         return res.json(images);
     }
 }

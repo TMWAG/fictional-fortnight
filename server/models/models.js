@@ -20,7 +20,6 @@ const Feedback = sequelize.define('feedback', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   feedbackText: { type: DataTypes.TEXT },
   rating: { type: DataTypes.INTEGER, allowNull: false },
-  date: { type: DataTypes.DATE, allowNull: false },
 });
 
 const Product = sequelize.define('product', {
@@ -64,7 +63,6 @@ const Parameter = sequelize.define('parameter', {
 const Order = sequelize.define('order', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   address: { type: DataTypes.STRING, allowNull: false },
-  date: { type: DataTypes.DATE, allowNull: false },
 });
 
 const OrderStatus = sequelize.define('orderStatus', {
