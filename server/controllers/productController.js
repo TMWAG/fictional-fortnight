@@ -34,9 +34,13 @@ class ProductController {
   }
 
   async getById(req, res) {
-    const {id} = req.params;
-    const product = Product.findOne({where:{id}});
-    return res.json(product);
+    try {
+      const {id} = req.params;
+      const product = await Product.findOne({where:{id}});
+      return res.json(product);
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 
