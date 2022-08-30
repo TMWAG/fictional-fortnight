@@ -1,10 +1,10 @@
-const {Vendor} = require('../models/models');
+const { Vendor } = require('../models/models');
 const ApiError = require('../error/ApiError');
 
 class VendorController {
   async create(req, res) {
-    const {vendorName} = req.body;
-    const vendor = await Vendor.create({vendorName});
+    const { vendorName } = req.body;
+    const vendor = await Vendor.create({ vendorName });
     return res.json(vendor);
   }
 

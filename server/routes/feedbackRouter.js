@@ -9,6 +9,6 @@ router.get('/product/:productId', feedbackController.getAllByProdId);
 
 router.put('/update', feedbackController.update);
 
-router.delete('/delete', feedbackController.delete)
+router.delete('/delete', feedbackController.delete);
 
 module.exports = router;

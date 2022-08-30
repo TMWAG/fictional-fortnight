@@ -42,13 +42,13 @@ const Category = sequelize.define('category', {
 
 const Description = sequelize.define('description', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  text: { type: DataTypes.TEXT, allowNull: false }
+  text: { type: DataTypes.TEXT, allowNull: false },
 });
 
-const ProductImage = sequelize.define('product_image',{
-  id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement:true},
-  imageName: {type: DataTypes.STRING}
-})
+const ProductImage = sequelize.define('product_image', {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  imageName: { type: DataTypes.STRING },
+});
 
 const Characteristic = sequelize.define('characteristic', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
