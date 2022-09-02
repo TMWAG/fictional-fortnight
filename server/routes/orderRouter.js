@@ -10,6 +10,6 @@ router.get('/user/:userId', OrderController.getAllByUserId);
 router.put('/address', OrderController.changeAddress);
 router.put('/status', OrderController.changeStatus);
 
-router.delete('/delete', OrderController.delete)
+router.delete('/delete', OrderController.delete);
 
 module.exports = router;

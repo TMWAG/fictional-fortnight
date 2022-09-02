@@ -25,24 +25,24 @@ class RoleController {
     return res.json(role);
   }
 
-  async update(req, res, next){
-    const {id, roleName} = req.body;
-    if(!id){
-      return next(ApiError.badRequest("Не задан ID"));
+  async update(req, res, next) {
+    const { id, roleName } = req.body;
+    if (!id) {
+      return next(ApiError.badRequest('Не задан ID'));
     }
-    if(!roleName){
-      return next(ApiError.badRequest("Не задано название роли"));
+    if (!roleName) {
+      return next(ApiError.badRequest('Не задано название роли'));
     }
-    const newRole = await Role.update({roleName}, {where:{id}});
+    const newRole = await Role.update({ roleName }, { where: { id } });
     return res.json(newRole);
   }
 
-  async delete(req, res, next){
-    const {id} = req.body;
-    if(!id){
-      return next(ApiError.badRequest("Не указан ID"));
+  async delete(req, res, next) {
+    const { id } = req.body;
+    if (!id) {
+      return next(ApiError.badRequest('Не указан ID'));
     }
-    const deletedRole = await Role.destroy({where:{id}});
+    const deletedRole = await Role.destroy({ where: { id } });
     return res.json(deletedRole);
   }
 }
