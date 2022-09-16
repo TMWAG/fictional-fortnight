@@ -47,7 +47,7 @@ const Description = sequelize.define('description', {
 
 const ProductImage = sequelize.define('product_image', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  imageName: { type: DataTypes.STRING },
+  filename: { type: DataTypes.STRING },
 });
 
 const Characteristic = sequelize.define('characteristic', {
