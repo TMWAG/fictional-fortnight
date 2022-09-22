@@ -2,18 +2,20 @@ const { Order } = require('../models/models');
 const ApiError = require('../error/ApiError');
 
 class OrderController {
-  async create(req, res, next) {
-    const { address, userId } = req.body;
-    if (!address) {
-      return next(ApiError.badRequest('Не указан адрес'));
-    }
-    if (!userId) {
-      return next(ApiError.badRequest('Не указан пользователь'));
-    }
-    let orderStatusId = 1;
-    const order = await Order.create({ address, userId, orderStatusId });
-    return res.json(order);
+  //utility methods
+  async createNewOrder(userId) {
+    let orderStatusId = process.env.DEFAULT_ORDER_STATUS_ID;
+    const order = await Order.create({ userId, orderStatusId });
+    return order;
   }
+
+  async findCurrentOrder(userId){
+    let orderStatusId = process.env.DEFAULT_ORDER_STATUS_ID;
+    const currentOrder = await Order.findOne({where:{userId, orderStatusId}});
+    return currentOrder;
+  }
+
+  //other
 
   async getOneById(req, res, next) {
     const { id } = req.params;

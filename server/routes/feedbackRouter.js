@@ -1,15 +1,15 @@
 const Router = require('express');
 const router = new Router();
 const feedbackController = require('../controllers/feedbackController');
-const checkRoleMiddleware = require('../middleware/checkRoleMiddleware');
+const authMiddleware = require('../middleware/authMiddleware');
 
-router.post('/create', checkRoleMiddleware(1), feedbackController.create);
+router.post('/create', authMiddleware, feedbackController.create);
 
 router.get('/user/:userId', feedbackController.getAllByUserId);
 router.get('/product/:productId', feedbackController.getAllByProdId);
 
-router.put('/update', checkRoleMiddleware(1), feedbackController.update);
+router.put('/update', authMiddleware, feedbackController.update);
 
-router.delete('/delete', checkRoleMiddleware(1), feedbackController.delete);
+router.delete('/delete', authMiddleware, feedbackController.delete);
 
 module.exports = router;

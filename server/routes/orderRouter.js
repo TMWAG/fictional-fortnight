@@ -2,7 +2,7 @@ const Router = require('express');
 const router = new Router();
 const OrderController = require('../controllers/orderController');
 
-router.post('/create', OrderController.create);
+// router.post('/create', OrderController.create);
 
 router.get('/:id', OrderController.getOneById);
 router.get('/user/:userId', OrderController.getAllByUserId);
