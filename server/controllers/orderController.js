@@ -9,9 +9,11 @@ class OrderController {
     return order;
   }
 
-  async findCurrentOrder(userId){
+  async findCurrentOrder(userId) {
     let orderStatusId = process.env.DEFAULT_ORDER_STATUS_ID;
-    const currentOrder = await Order.findOne({where:{userId, orderStatusId}});
+    const currentOrder = await Order.findOne({
+      where: { userId, orderStatusId },
+    });
     return currentOrder;
   }
 
