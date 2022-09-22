@@ -10,7 +10,7 @@ router.post(
 );
 
 router.get(
-  '/:orderId',
+  '/order/:orderId',
   authMiddleware,
   OrderedProductController.getAllByOrderId
 );
