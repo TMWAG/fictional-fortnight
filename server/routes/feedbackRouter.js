@@ -8,7 +8,6 @@ router.post('/create', authMiddleware, feedbackController.create);
 router.get('/user/:userId', feedbackController.getAllByUserId);
 router.get('/product/:productId', feedbackController.getAllByProductId);
 
-
 router.put('/update', authMiddleware, feedbackController.updateById);
 
 router.delete('/delete', authMiddleware, feedbackController.deleteById);

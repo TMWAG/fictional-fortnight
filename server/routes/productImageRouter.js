@@ -7,6 +7,10 @@ router.post('/create', checkRoleMiddleware(1), productImageController.create);
 
 router.get('/:productId', productImageController.getAllByProdId);
 
-router.delete('/delete', checkRoleMiddleware(1), productImageController.deleteById);
+router.delete(
+  '/delete',
+  checkRoleMiddleware(1),
+  productImageController.deleteById
+);
 
 module.exports = router;

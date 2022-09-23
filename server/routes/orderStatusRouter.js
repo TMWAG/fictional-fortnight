@@ -10,6 +10,10 @@ router.get('/:id', OrderStatusController.getById);
 
 router.put('/update', checkRoleMiddleware(1), OrderStatusController.updateById);
 
-router.delete('/delete', checkRoleMiddleware(1), OrderStatusController.deleteById);
+router.delete(
+  '/delete',
+  checkRoleMiddleware(1),
+  OrderStatusController.deleteById
+);
 
 module.exports = router;

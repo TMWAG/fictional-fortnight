@@ -21,9 +21,9 @@ class OrderController {
 
   async getOneById(req, res, next) {
     try {
-	    const { id } = req.params;
-	    const order = await Order.findOne({ where: { id } });
-	    return res.json(order);
+      const { id } = req.params;
+      const order = await Order.findOne({ where: { id } });
+      return res.json(order);
     } catch (error) {
       next(ApiError.badRequest(error.message));
     }
@@ -31,9 +31,9 @@ class OrderController {
 
   async getAllByUserId(req, res, next) {
     try {
-	    const { userId } = req.params;
-	    const orders = await Order.findAll({ where: { userId } });
-	    return res.json(orders);
+      const { userId } = req.params;
+      const orders = await Order.findAll({ where: { userId } });
+      return res.json(orders);
     } catch (error) {
       next(ApiError.badRequest(error.message));
     }
@@ -41,31 +41,31 @@ class OrderController {
 
   async changeAddressById(req, res, next) {
     try {
-	    const { id, address } = req.body;
-	    const order = await Order.update({ address }, { where: { id } });
-	    return res.json(order);
+      const { id, address } = req.body;
+      const order = await Order.update({ address }, { where: { id } });
+      return res.json(order);
     } catch (error) {
-      next(ApiError.badRequest(error.message)); 
+      next(ApiError.badRequest(error.message));
     }
   }
 
   async changeStatusById(req, res, next) {
     try {
-	    const { id, orderStatusId } = req.body;
-	    const order = await Order.update({ orderStatusId }, { where: { id } });
-	    return res.json(order);
+      const { id, orderStatusId } = req.body;
+      const order = await Order.update({ orderStatusId }, { where: { id } });
+      return res.json(order);
     } catch (error) {
-      next(ApiError.badRequest(error.message)); 
+      next(ApiError.badRequest(error.message));
     }
   }
 
   async deleteById(req, res, next) {
     try {
-	    const { id } = req.body;
-	    const order = await Order.destroy({ where: { id } });
-	    return res.json(order);
+      const { id } = req.body;
+      const order = await Order.destroy({ where: { id } });
+      return res.json(order);
     } catch (error) {
-      next(ApiError.badRequest(error.message)); 
+      next(ApiError.badRequest(error.message));
     }
   }
 }
