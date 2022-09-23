@@ -33,7 +33,7 @@ class OrderedProductController {
     return res.json(orderedProducts);
   }
 
-  async changeAmount(req, res, next) {
+  async changeAmountByIdAndProductId(req, res, next) {
     const { orderId, amount, productId } = req.body;
     if (!orderId) {
       return next(ApiError.badRequest('Не указан ID заказа'));
@@ -51,7 +51,7 @@ class OrderedProductController {
     return res.json(orderedItems);
   }
 
-  async removeProduct(req, res, next) {
+  async removeProductById(req, res, next) {
     const { orderId, productId } = req.body;
     if (!orderId) {
       return next(ApiError.badRequest('Не указан ID заказа'));

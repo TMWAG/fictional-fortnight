@@ -26,7 +26,7 @@ class ProductImageController {
     return res.json(images);
   }
 
-  async delete(req, res, next) {
+  async deleteById(req, res, next) {
     const { id } = req.body;
     if (!id) {
       return next(ApiError.badRequest('Не указан ID изображения'));

@@ -29,7 +29,7 @@ class FeedbackController {
     return res.json(userFeedbacks);
   }
 
-  async getAllByProdId(req, res, next) {
+  async getAllByProductId(req, res, next) {
     const { productId } = req.params;
     if (!productId) {
       return next(ApiError.badRequest('Не указан ID продукта'));
@@ -38,7 +38,7 @@ class FeedbackController {
     return res.json(productFeedbacks);
   }
 
-  async update(req, res, next) {
+  async updateById(req, res, next) {
     const { id, feedbackText, rating } = req.body;
     if (!id) {
       return next(ApiError.badRequest('Не указан ID отзыва'));
@@ -62,7 +62,7 @@ class FeedbackController {
     return res.json(feedback);
   }
 
-  async delete(req, res, next) {
+  async deleteById(req, res, next) {
     const { id } = req.body;
     if (!id) {
       return next(ApiError.badRequest('Не указан ID'));

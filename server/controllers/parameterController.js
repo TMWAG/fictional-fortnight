@@ -25,7 +25,7 @@ class ParameterController {
     return res.json(parameter);
   }
 
-  async update(req, res, next) {
+  async updateById(req, res, next) {
     const { id, parameter } = req.body;
     if (!id || !parameter) {
       return next(ApiError.badRequest('Не задан ID или название параметра'));
@@ -37,7 +37,7 @@ class ParameterController {
     return res.json(newParameter);
   }
 
-  async delete(req, res, next) {
+  async deleteById(req, res, next) {
     const { id } = req.body;
     if (!id) {
       return next(ApiError.badRequest('Не задан ID'));

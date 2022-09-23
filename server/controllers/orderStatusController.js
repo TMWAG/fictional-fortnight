@@ -25,7 +25,7 @@ class OrderStatusController {
     return res.json(statuses);
   }
 
-  async update(req, res) {
+  async updateById(req, res) {
     const { id, statusName } = req.body;
     if (!id) {
       return next(ApiError.badRequest('Не указан ID статуса'));
@@ -37,7 +37,7 @@ class OrderStatusController {
     return res.json(status);
   }
 
-  async delete(req, res, next) {
+  async deleteById(req, res, next) {
     const { id } = req.body;
     if (!id) {
       return next(ApiError.badRequest('Не указан ID статуса'));

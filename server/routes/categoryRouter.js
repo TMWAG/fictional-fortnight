@@ -6,10 +6,10 @@ const checkRoleMiddleware = require('../middleware/checkRoleMiddleware');
 router.post('/create', checkRoleMiddleware(1), categoryController.create);
 
 router.get('/all', categoryController.getAll);
-router.get('/:id', categoryController.getById);
+router.get('/:id', categoryController.getOneById);
 
-router.put('/update', checkRoleMiddleware(1), categoryController.update);
+router.put('/update', checkRoleMiddleware(1), categoryController.updateById);
 
-router.delete('/delete', checkRoleMiddleware(1), categoryController.delete);
+router.delete('/delete', checkRoleMiddleware(1), categoryController.deleteById);
 
 module.exports = router;

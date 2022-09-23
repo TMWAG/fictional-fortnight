@@ -7,8 +7,16 @@ router.post('/create', checkRoleMiddleware(1), vendorController.create);
 
 router.get('/all', vendorController.getAll);
 
-router.put('/updateName', checkRoleMiddleware(1), vendorController.updateVendorNameById);
+router.put(
+  '/updateName',
+  checkRoleMiddleware(1),
+  vendorController.updateVendorNameById
+);
 
-router.delete('/delete', checkRoleMiddleware(1), vendorController.deleteVendorById);
+router.delete(
+  '/delete',
+  checkRoleMiddleware(1),
+  vendorController.deleteVendorById
+);
 
 module.exports = router;

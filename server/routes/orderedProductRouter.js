@@ -18,13 +18,13 @@ router.get(
 router.put(
   '/changeAmount',
   authMiddleware,
-  OrderedProductController.changeAmount
+  OrderedProductController.changeAmountByIdAndProductId
 );
 
 router.delete(
   '/removeProduct',
   authMiddleware,
-  OrderedProductController.removeProduct
+  OrderedProductController.removeProductById
 );
 
 module.exports = router;

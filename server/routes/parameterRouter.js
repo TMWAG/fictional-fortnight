@@ -8,8 +8,8 @@ router.post('/create', checkRoleMiddleware(1), parameterController.create);
 router.get('/all', parameterController.getAll);
 router.get('/:id', parameterController.getById);
 
-router.put('/update', checkRoleMiddleware(1), parameterController.update);
+router.put('/update', checkRoleMiddleware(1), parameterController.updateById);
 
-router.delete('/delete', checkRoleMiddleware(1), parameterController.delete);
+router.delete('/delete', checkRoleMiddleware(1), parameterController.deleteById);
 
 module.exports = router;

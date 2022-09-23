@@ -17,24 +17,24 @@ class VendorController {
       const vendors = await Vendor.findAll();
       return res.json(vendors);
     } catch (error) {
-      next(ApiError.badRequest(error.message))
+      next(ApiError.badRequest(error.message));
     }
   }
 
-  async updateVendorNameById(req, res, next){
+  async updateVendorNameById(req, res, next) {
     try {
-      const {vendorName, id} = req.body;
-      const vendor = await Vendor.update({vendorName}, {where:{id}});
+      const { vendorName, id } = req.body;
+      const vendor = await Vendor.update({ vendorName }, { where: { id } });
       return res.json(vendor);
     } catch (error) {
       next(ApiError.badRequest(error));
     }
   }
 
-  async deleteVendorById(req, res, next){
+  async deleteVendorById(req, res, next) {
     try {
-      const {id} = req.body;
-      const vendor = Vendor.destroy({where:{id}});
+      const { id } = req.body;
+      const vendor = Vendor.destroy({ where: { id } });
       return res.json(vendor);
     } catch (error) {
       next(ApiError.badRequest(error.message));

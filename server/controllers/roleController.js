@@ -25,7 +25,7 @@ class RoleController {
     return res.json(role);
   }
 
-  async update(req, res, next) {
+  async updateById(req, res, next) {
     const { id, roleName } = req.body;
     if (!id) {
       return next(ApiError.badRequest('Не задан ID'));
@@ -37,7 +37,7 @@ class RoleController {
     return res.json(newRole);
   }
 
-  async delete(req, res, next) {
+  async deleteById(req, res, next) {
     const { id } = req.body;
     if (!id) {
       return next(ApiError.badRequest('Не указан ID'));

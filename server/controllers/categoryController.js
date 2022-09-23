@@ -3,44 +3,55 @@ const ApiError = require('../error/ApiError');
 
 class CategoryController {
   async create(req, res, next) {
-    const { categoryName } = req.body;
-    if (!categoryName) {
-      return next(ApiError.badRequest('Не задано название категории'));
+    try {
+      const { categoryName } = req.body;
+      const category = await Category.create({ categoryName });
+      return res.json(category);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    const category = await Category.create({ categoryName });
-    return res.json(category);
   }
 
-  async getAll(req, res) {
-    const categories = await Category.findAll();
-    return res.json(categories);
+  async getAll(req, res, next) {
+    try {
+      const categories = await Category.findAll();
+      return res.json(categories);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
+    }
   }
 
-  async getById(req, res, next) {
-    const { id } = req.params;
-    if (!id) {
-      return next(ApiError.badRequest('Не задан ID'));
+  async getOneById(req, res, next) {
+    try {
+      const { id } = req.params;
+      const category = await Category.findOne({ where: { id } });
+      return res.json(category);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    const category = await Category.findOne({ where: { id } });
-    return res.json(category);
   }
 
-  async update(req, res, next) {
-    const { id, categoryName } = req.body;
-    if (!id || !categoryName) {
-      return next(ApiError.badRequest('Не задан ID или название категории'));
+  async updateById(req, res, next) {
+    try {
+      const { id, categoryName } = req.body;
+      const category = await Category.update(
+        { categoryName },
+        { where: { id } }
+      );
+      return res.json(category);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    const category = await Category.update({ categoryName }, { where: { id } });
-    return res.json(category);
   }
 
-  async delete(req, res, next) {
-    const { id } = req.body;
-    if (!id) {
-      return next(ApiError.badRequest('Не задан ID'));
+  async deleteById(req, res, next) {
+    try {
+      const { id } = req.body;
+      const category = await Category.destroy({ where: { id } });
+      return res.json(category);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    const category = await Category.destroy({ where: { id } });
-    return res.json(category);
   }
 }
 

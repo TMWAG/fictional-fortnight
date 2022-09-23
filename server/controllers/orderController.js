@@ -37,7 +37,7 @@ class OrderController {
     return res.json(orders);
   }
 
-  async changeAddress(req, res, next) {
+  async changeAddressById(req, res, next) {
     const { id, address } = req.body;
     if (!id) {
       return next(ApiError.badRequest('Не указан ID заказа'));
@@ -49,7 +49,7 @@ class OrderController {
     return res.json(order);
   }
 
-  async changeStatus(req, res, next) {
+  async changeStatusById(req, res, next) {
     const { id, orderStatusId } = req.body;
     if (!id) {
       return next(ApiError.badRequest('Не указан ID заказа'));
@@ -61,7 +61,7 @@ class OrderController {
     return res.json(order);
   }
 
-  async delete(req, res, next) {
+  async deleteById(req, res, next) {
     const { id } = req.body;
     if (!id) {
       return next(ApiError.badRequest('Не указан ID заказа'));
