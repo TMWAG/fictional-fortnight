@@ -6,39 +6,42 @@ const fs = require('fs');
 
 class ProductImageController {
   async create(req, res, next) {
-    const { productId } = req.body;
-    if (!productId) {
-      return next(ApiError.badRequest('Не указан ID продукта'));
+    try {
+	    const { productId } = req.body;
+	    const { img } = req.files;
+	    let filename = uuid.v4() + '.jpg';
+	    img.mv(path.resolve(__dirname, '..', 'static', filename));
+	    const image = await ProductImage.create({ filename, productId });
+	    return res.json(image);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    const { img } = req.files;
-    if (!img) {
-      return next(ApiError.badRequest('Нет изображения'));
-    }
-    let filename = uuid.v4() + '.jpg';
-    img.mv(path.resolve(__dirname, '..', 'static', filename));
-    const image = await ProductImage.create({ filename, productId });
-    return res.json(image);
   }
 
-  async getAllByProdId(req, res) {
-    const { productId } = req.params;
-    const images = await ProductImage.findAll({ where: { productId } });
-    return res.json(images);
+  async getAllByProdId(req, res, next) {
+    try {
+	    const { productId } = req.params;
+	    const images = await ProductImage.findAll({ where: { productId } });
+	    return res.json(images);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
+    }
   }
 
   async deleteById(req, res, next) {
-    const { id } = req.body;
-    if (!id) {
-      return next(ApiError.badRequest('Не указан ID изображения'));
+    try {
+	    const { id } = req.body;
+	    const { filename } = await ProductImage.findOne({ where: { id } });
+	    fs.unlink(path.resolve(__dirname, '..', 'static', filename), (err) => {
+	      if (err) {
+	        return next(ApiError.internal('Ошибка при удалении файла'));
+	      }
+	    });
+	    const img = ProductImage.destroy({ where: { id } });
+	    return res.json(img);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    const { filename } = await ProductImage.findOne({ where: { id } });
-    fs.unlink(path.resolve(__dirname, '..', 'static', filename), (err) => {
-      if (err) {
-        return next(ApiError.internal('Ошибка при удалении файла'));
-      }
-    });
-    const img = ProductImage.destroy({ where: { id } });
-    return res.json(img);
   }
 }
 

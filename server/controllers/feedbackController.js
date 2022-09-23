@@ -3,72 +3,70 @@ const ApiError = require('../error/ApiError');
 
 class FeedbackController {
   async create(req, res, next) {
-    const { feedbackText, rating, userId, productId } = req.body;
-    if (!rating) {
-      return next(ApiError.badRequest('Не указан рейтинг'));
-    } else if (!userId) {
-      return next(ApiError.badRequest('Не указан ID пользователя'));
-    } else if (!productId) {
-      return next(ApiError.badRequest('Не указан ID продукта'));
+    try {
+	    const { feedbackText, rating, userId, productId } = req.body;
+	    const feedback = await Feedback.create({
+	      feedbackText,
+	      rating,
+	      userId,
+	      productId,
+	    });
+	    return res.json(feedback);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    const feedback = await Feedback.create({
-      feedbackText,
-      rating,
-      userId,
-      productId,
-    });
-    return res.json(feedback);
   }
 
   async getAllByUserId(req, res, next) {
-    const { userId } = req.params;
-    if (!userId) {
-      return next(ApiError.badRequest('Не указан ID пользователя'));
+    try {
+	    const { userId } = req.params;
+	    const userFeedbacks = await Feedback.findAll({ where: { userId } });
+	    return res.json(userFeedbacks);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    const userFeedbacks = await Feedback.findAll({ where: { userId } });
-    return res.json(userFeedbacks);
   }
 
   async getAllByProductId(req, res, next) {
-    const { productId } = req.params;
-    if (!productId) {
-      return next(ApiError.badRequest('Не указан ID продукта'));
+    try {
+	    const { productId } = req.params;
+	    const productFeedbacks = await Feedback.findAll({ where: { productId } });
+	    return res.json(productFeedbacks);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    const productFeedbacks = await Feedback.findAll({ where: { productId } });
-    return res.json(productFeedbacks);
   }
 
   async updateById(req, res, next) {
-    const { id, feedbackText, rating } = req.body;
-    if (!id) {
-      return next(ApiError.badRequest('Не указан ID отзыва'));
+    try {
+	    const { id, feedbackText, rating } = req.body;
+	    let feedback;
+	    if (!feedbackText && rating) {
+	      feedback = await Feedback.update({ rating }, { where: { id } });
+	    }
+	    if (!rating && feedbackText) {
+	      feedback = await Feedback.update({ feedbackText }, { where: { id } });
+	    }
+	    if (feedbackText && rating) {
+	      feedback = await Feedback.update(
+	        { rating, feedbackText },
+	        { where: { id } }
+	      );
+	    }
+	    return res.json(feedback);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));    
     }
-    if (!feedbackText && !rating) {
-      return next(ApiError.badRequest('Не указан текст отзыва и оценка'));
-    }
-    let feedback;
-    if (!feedbackText && rating) {
-      feedback = await Feedback.update({ rating }, { where: { id } });
-    }
-    if (!rating && feedbackText) {
-      feedback = await Feedback.update({ feedbackText }, { where: { id } });
-    }
-    if (feedbackText && rating) {
-      feedback = await Feedback.update(
-        { rating, feedbackText },
-        { where: { id } }
-      );
-    }
-    return res.json(feedback);
   }
 
   async deleteById(req, res, next) {
-    const { id } = req.body;
-    if (!id) {
-      return next(ApiError.badRequest('Не указан ID'));
+    try {
+	    const { id } = req.body;
+	    const feedback = await Feedback.destroy({ where: { id } });
+	    return res.json(feedback);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));      
     }
-    const feedback = await Feedback.destroy({ where: { id } });
-    return res.json(feedback);
   }
 }
 

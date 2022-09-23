@@ -20,54 +20,53 @@ class OrderController {
   //other
 
   async getOneById(req, res, next) {
-    const { id } = req.params;
-    if (!id) {
-      return next(ApiError.badRequest('Не указан ID заказа'));
+    try {
+	    const { id } = req.params;
+	    const order = await Order.findOne({ where: { id } });
+	    return res.json(order);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    const order = await Order.findOne({ where: { id } });
-    return res.json(order);
   }
 
   async getAllByUserId(req, res, next) {
-    const { userId } = req.params;
-    if (!userId) {
-      return next(ApiError.badRequest('Не указан ID пользователя'));
+    try {
+	    const { userId } = req.params;
+	    const orders = await Order.findAll({ where: { userId } });
+	    return res.json(orders);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    const orders = await Order.findAll({ where: { userId } });
-    return res.json(orders);
   }
 
   async changeAddressById(req, res, next) {
-    const { id, address } = req.body;
-    if (!id) {
-      return next(ApiError.badRequest('Не указан ID заказа'));
+    try {
+	    const { id, address } = req.body;
+	    const order = await Order.update({ address }, { where: { id } });
+	    return res.json(order);
+    } catch (error) {
+      next(ApiError.badRequest(error.message)); 
     }
-    if (!address) {
-      return next(ApiError.badRequest('Не указан адрес'));
-    }
-    const order = await Order.update({ address }, { where: { id } });
-    return res.json(order);
   }
 
   async changeStatusById(req, res, next) {
-    const { id, orderStatusId } = req.body;
-    if (!id) {
-      return next(ApiError.badRequest('Не указан ID заказа'));
+    try {
+	    const { id, orderStatusId } = req.body;
+	    const order = await Order.update({ orderStatusId }, { where: { id } });
+	    return res.json(order);
+    } catch (error) {
+      next(ApiError.badRequest(error.message)); 
     }
-    if (!orderStatusId) {
-      return next(ApiError.badRequest('Не указан статус заказа'));
-    }
-    const order = await Order.update({ orderStatusId }, { where: { id } });
-    return res.json(order);
   }
 
   async deleteById(req, res, next) {
-    const { id } = req.body;
-    if (!id) {
-      return next(ApiError.badRequest('Не указан ID заказа'));
+    try {
+	    const { id } = req.body;
+	    const order = await Order.destroy({ where: { id } });
+	    return res.json(order);
+    } catch (error) {
+      next(ApiError.badRequest(error.message)); 
     }
-    const order = await Order.destroy({ where: { id } });
-    return res.json(order);
   }
 }
 

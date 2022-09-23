@@ -3,23 +3,23 @@ const ApiError = require('../error/ApiError');
 
 class DescriptionController {
   async create(req, res, next) {
-    const { productId, text } = req.body;
-    if (!productId || !text) {
-      return next(
-        ApiError.badRequest('Не указан ID продукта или текст описания')
-      );
+    try {
+	    const { productId, text } = req.body;
+	    const description = await Description.create({ productId, text });
+	    return res.json(description);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    const description = await Description.create({ productId, text });
-    return res.json(description);
   }
 
   async getOneById(req, res, next) {
-    const { productId } = req.params;
-    if (!productId) {
-      return next(ApiError.badRequest('Не указан ID продукта'));
+    try {
+	    const { productId } = req.params;
+	    const description = await Description.findOne({ where: { productId } });
+	    return res.json(description);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    const description = await Description.findOne({ where: { productId } });
-    return res.json(description);
   }
 
   async getAll(req, res, next){
@@ -32,21 +32,23 @@ class DescriptionController {
   }
 
   async updateById(req, res, next) {
-    const { id, text } = req.body;
-    if (!id || !text) {
-      return next(ApiError.badRequest('Не указан ID или текст описания'));
+    try {
+    	const { id, text } = req.body;
+	    const description = await Description.update({ text }, { where: { id } });
+	    return res.json(description);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    const description = await Description.update({ text }, { where: { id } });
-    return res.json(description);
   }
 
   async deleteById(req, res, next) {
-    const { id } = req.body;
-    if (!id) {
-      return next(ApiError.badRequest('Не указан ID'));
+    try {
+	    const { id } = req.body;
+	    const description = await Description.destroy({ where: { id } });
+	    return res.json(description);
+    } catch (error) {
+      next(ApiError.badRequest(error.message))
     }
-    const description = await Description.destroy({ where: { id } });
-    return res.json(description);
   }
 }
 

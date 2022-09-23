@@ -3,47 +3,55 @@ const ApiError = require('../error/ApiError');
 
 class ParameterController {
   async create(req, res, next) {
-    const { parameter } = req.body;
-    if (!parameter) {
-      return next(ApiError.badRequest('Не задано название параметра'));
+    try {
+	    const { parameter } = req.body;
+	    const createdParameter = await Parameter.create({ parameter });
+	    return res.json(createdParameter);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    const createdParameter = await Parameter.create({ parameter });
-    return res.json(createdParameter);
   }
 
-  async getAll(req, res) {
-    const parameters = await Parameter.findAll();
-    return res.json(parameters);
+  async getAll(req, res, next) {
+    try {
+	    const parameters = await Parameter.findAll();
+	    return res.json(parameters);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
+    }
   }
 
   async getById(req, res, next) {
-    const { id } = req.params;
-    if (!id) {
-      return next(ApiError.badRequest('Не задан ID'));
+    try {
+	    const { id } = req.params;
+	    const parameter = await Parameter.findOne({ where: { id: id } });
+	    return res.json(parameter);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    const parameter = await Parameter.findOne({ where: { id: id } });
-    return res.json(parameter);
   }
 
   async updateById(req, res, next) {
-    const { id, parameter } = req.body;
-    if (!id || !parameter) {
-      return next(ApiError.badRequest('Не задан ID или название параметра'));
+    try {
+	    const { id, parameter } = req.body;
+	    const newParameter = await Parameter.update(
+	      { parameter },
+	      { where: { id } }
+	    );
+	    return res.json(newParameter);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    const newParameter = await Parameter.update(
-      { parameter },
-      { where: { id } }
-    );
-    return res.json(newParameter);
   }
 
   async deleteById(req, res, next) {
-    const { id } = req.body;
-    if (!id) {
-      return next(ApiError.badRequest('Не задан ID'));
+    try {
+	    const { id } = req.body;
+	    const parameter = await Parameter.destroy({ where: { id } });
+	    return res.json(parameter);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    const parameter = await Parameter.destroy({ where: { id } });
-    return res.json(parameter);
   }
 }
 

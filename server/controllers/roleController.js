@@ -3,47 +3,52 @@ const ApiError = require('../error/ApiError');
 
 class RoleController {
   async create(req, res, next) {
-    const { roleName } = req.body;
-    if (!roleName) {
-      return next(ApiError.badRequest('Не задано название роли'));
+    try {
+	    const { roleName } = req.body;
+	    const role = await Role.create({ roleName });
+	    return res.json(role);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    const role = await Role.create({ roleName });
-    return res.json(role);
   }
 
-  async getAllRoles(req, res) {
-    const roles = await Role.findAll();
-    return res.json(roles);
+  async getAllRoles(req, res, next) {
+    try {
+	    const roles = await Role.findAll();
+	    return res.json(roles);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
+    }
   }
 
   async getRoleById(req, res, next) {
-    const { id } = req.params;
-    if (!id) {
-      return next(ApiError.badRequest('Не задан ID'));
+    try {
+	    const { id } = req.params;
+	    const role = await Role.findOne({ where: { id } });
+	    return res.json(role);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    const role = await Role.findOne({ where: { id } });
-    return res.json(role);
   }
 
   async updateById(req, res, next) {
-    const { id, roleName } = req.body;
-    if (!id) {
-      return next(ApiError.badRequest('Не задан ID'));
+    try {
+	    const { id, roleName } = req.body;
+	    const newRole = await Role.update({ roleName }, { where: { id } });
+	    return res.json(newRole);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    if (!roleName) {
-      return next(ApiError.badRequest('Не задано название роли'));
-    }
-    const newRole = await Role.update({ roleName }, { where: { id } });
-    return res.json(newRole);
   }
 
   async deleteById(req, res, next) {
-    const { id } = req.body;
-    if (!id) {
-      return next(ApiError.badRequest('Не указан ID'));
+    try {
+	    const { id } = req.body;
+	    const deletedRole = await Role.destroy({ where: { id } });
+	    return res.json(deletedRole);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    const deletedRole = await Role.destroy({ where: { id } });
-    return res.json(deletedRole);
   }
 }
 

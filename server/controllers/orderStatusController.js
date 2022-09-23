@@ -3,47 +3,52 @@ const ApiError = require('../error/ApiError');
 
 class OrderStatusController {
   async create(req, res, next) {
-    const { statusName } = req.body;
-    if (!statusName) {
-      return next(ApiError.badRequest('Не указано название статуса'));
+    try {
+	    const { statusName } = req.body;
+	    const status = await OrderStatus.create({ statusName });
+	    return res.json(status);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    const status = await OrderStatus.create({ statusName });
-    return res.json(status);
   }
 
-  async getAll(req, res) {
-    const statuses = await OrderStatus.findAll();
-    return res.json(statuses);
+  async getAll(req, res, next) {
+    try {
+	    const statuses = await OrderStatus.findAll();
+	    return res.json(statuses);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
+    }
   }
 
   async getById(req, res) {
-    const { id } = req.params;
-    if (!id) {
-      return next(ApiError.badRequest('Не указан ID статуса'));
+    try {
+	    const { id } = req.params;
+	    const statuses = await OrderStatus.findOne({ where: { id } });
+	    return res.json(statuses);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    const statuses = await OrderStatus.findOne({ where: { id } });
-    return res.json(statuses);
   }
 
   async updateById(req, res) {
-    const { id, statusName } = req.body;
-    if (!id) {
-      return next(ApiError.badRequest('Не указан ID статуса'));
+    try {
+	    const { id, statusName } = req.body;
+	    const status = await OrderStatus.update({ statusName }, { where: { id } });
+	    return res.json(status);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    if (!statusName) {
-      return next(ApiError.badRequest('Не указано новое название статуса'));
-    }
-    const status = await OrderStatus.update({ statusName }, { where: { id } });
-    return res.json(status);
   }
 
   async deleteById(req, res, next) {
-    const { id } = req.body;
-    if (!id) {
-      return next(ApiError.badRequest('Не указан ID статуса'));
+    try {
+	    const { id } = req.body;
+	    const status = await OrderStatus.destroy({ where: { id } });
+	    return res.json(status);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    const status = await OrderStatus.destroy({ where: { id } });
-    return res.json(status);
   }
 }
 
