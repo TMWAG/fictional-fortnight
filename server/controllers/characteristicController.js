@@ -3,81 +3,97 @@ const ApiError = require('../error/ApiError');
 
 class CharacteristicController {
   async create(req, res, next) {
-    const { productId, parameterId, value } = req.body;
-    if (!productId) {
-      return next(ApiError.badRequest('Не указан ID продукта'));
-    } else if (!parameterId) {
-      return next(ApiError.badRequest('Не указан ID параметра'));
-    } else if (!value) {
-      return next(ApiError.badRequest('Не указано значение параметра'));
+    try {
+      const { productId, parameterId, value } = req.body;
+      const characteristic = await Characteristic.create({
+        productId,
+        parameterId,
+        value,
+      });
+      return res.json(characteristic);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    const characteristic = await Characteristic.create({
-      productId,
-      parameterId,
-      value,
-    });
-    return res.json(characteristic);
   }
 
-  async getAll(req, res) {
-    const characteristics = await Characteristic.findAll();
-    return res.json(characteristics);
+  async getAll(req, res, next) {
+    try {
+      const characteristics = await Characteristic.findAll();
+      return res.json(characteristics);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
+    }
   }
 
-  async getById(req, res, next) {
-    const { id } = req.params;
-    if (!id) {
-      return next(ApiError.badRequest('Не указан ID характеристики'));
+  async getOneById(req, res, next) {
+    try {
+      const { id } = req.params;
+      const characteristic = await Characteristic.findOne({ where: { id } });
+      return res.json(characteristic);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    const characteristic = await Characteristic.findOne({ where: { id } });
-    return res.json(characteristic);
   }
 
   async getAllCharsByProdId(req, res, next) {
-    const { productId } = req.params;
-    if (!productId) {
-      return next(ApiError.badRequest('Не указан ID продукта'));
+    try {
+      const { productId } = req.params;
+      const characteristics = await Characteristic.findAll({
+        where: { productId },
+      });
+      return res.json(characteristics);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    const characteristics = await Characteristic.findAll({
-      where: { productId },
-    });
-    return res.json(characteristics);
   }
 
-  async update(req, res, next) {
-    const { id, parameterId, value } = req.body;
-    let characteristic;
-    if (!id) {
-      return next(ApiError.badRequest('Не указан ID характеристики'));
-    }
-    if (!parameterId && value) {
-      characteristic = await Characteristic.update(
-        { value },
+  async updateProductById(req, res, next) {
+    try {
+      const { id, productId } = req.body;
+      const characteristic = await Characteristic.update(
+        { productId },
         { where: { id } }
       );
+      return res.json(characteristic);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    if (!value && parameterId) {
-      characteristic = await Characteristic.update(
+  }
+
+  async updateParameterById(req, res, next) {
+    try {
+      const { id, parameterId } = req.body;
+      const characteristic = await Characteristic.update(
         { parameterId },
         { where: { id } }
       );
+      return res.json(characteristic);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    if (value && parameterId) {
-      characteristic = await Characteristic.update(
-        { value, parameterId },
-        { where: { id } }
-      );
-    }
-    return res.json(characteristic);
   }
 
-  async delete(req, res, next) {
-    const { id } = req.body;
-    if (!id) {
-      return next(ApiError.badRequest('Не указан ID характеристики'));
+  async updateValueById(req, res, next) {
+    try {
+      const { id, value } = req.body;
+      const characteristic = await Characteristic.update(
+        { value },
+        { where: { id } }
+      );
+      return res.json(characteristic);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
-    const characteristic = await Characteristic.destroy({ where: { id } });
-    return res.json(characteristic);
+  }
+
+  async deleteById(req, res, next) {
+    try {
+      const { id } = req.body;
+      const characteristic = await Characteristic.destroy({ where: { id } });
+      return res.json(characteristic);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
+    }
   }
 }
 
