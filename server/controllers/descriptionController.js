@@ -13,7 +13,7 @@ class DescriptionController {
     return res.json(description);
   }
 
-  async getOne(req, res, next) {
+  async getOneById(req, res, next) {
     const { productId } = req.params;
     if (!productId) {
       return next(ApiError.badRequest('Не указан ID продукта'));
@@ -22,7 +22,16 @@ class DescriptionController {
     return res.json(description);
   }
 
-  async update(req, res, next) {
+  async getAll(req, res, next){
+    try {
+      const descriptions = Description.findAll();
+      return res.json(descriptions);
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
+    }
+  }
+
+  async updateById(req, res, next) {
     const { id, text } = req.body;
     if (!id || !text) {
       return next(ApiError.badRequest('Не указан ID или текст описания'));
@@ -31,7 +40,7 @@ class DescriptionController {
     return res.json(description);
   }
 
-  async delete(req, res, next) {
+  async deleteById(req, res, next) {
     const { id } = req.body;
     if (!id) {
       return next(ApiError.badRequest('Не указан ID'));
