@@ -1,14 +1,15 @@
 const Router = require('express');
 const router = new Router();
 const OrderStatusController = require('../controllers/orderStatusController');
+const checkRoleMiddleware = require('../middleware/checkRoleMiddleware');
 
-router.post('/create', OrderStatusController.create);
+router.post('/create', checkRoleMiddleware(1), OrderStatusController.create);
 
 router.get('/all', OrderStatusController.getAll);
 router.get('/:id', OrderStatusController.getById);
 
-router.put('/update', OrderStatusController.update);
+router.put('/update', checkRoleMiddleware(1), OrderStatusController.update);
 
-router.delete('/delete', OrderStatusController.delete);
+router.delete('/delete', checkRoleMiddleware(1), OrderStatusController.delete);
 
 module.exports = router;
